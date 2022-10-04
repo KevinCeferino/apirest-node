@@ -5,9 +5,13 @@ const ProductsService = require('./../services/productsService')
 const router = express.Router();
 const service = new ProductsService();
 
-router.get('/', (req, res) => {
-  const products = service.find();
+router.get('/', async (req, res, next) => {
+  try {
+    const products = await service.find();
   res.json(products);
+  } catch(error){
+    next(error)
+  }
 });
 
 

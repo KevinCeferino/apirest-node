@@ -1,12 +1,16 @@
 const faker = require('faker');
 
+const sequelize = require('./../libs/sequelize');
+
 class ProductsService {
     constructor() {
         this.products = [];
         this.generate();
+        // this.pool = pool;
+        // this.pool.on('error', (err) => console.error(err));
     }
 
-    generate() {
+    async generate() {
         const limit = 100;
         for (let i = 0; i < limit; i++) {
             this.products.push(
@@ -20,7 +24,7 @@ class ProductsService {
         }
     }
 
-    create(data) {
+    async create(data) {
         const newProduct = {
             id: faker.datatype.uuid(),
             ...data
@@ -29,19 +33,23 @@ class ProductsService {
         return newProduct;
     }
 
-    find() {
-        return this.products;
+    async find() {
+        const query = 'SELECT * FROM tasks';
+        const [data] = await sequelize.query(query)
+        return {
+            data
+        };
     }
 
-    findOne(id) {
+    async findOne(id) {
         return this.products.find(item => item.id === id);
     }
 
-    update() {
+    async update() {
 
     }
 
-    delete() {
+    async delete() {
 
     }
 
